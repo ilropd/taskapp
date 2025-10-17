@@ -27,4 +27,17 @@ interface TaskDao {
     @Delete
     suspend fun deleteTask(task: Task)
 
+    @Query("SELECT * FROM tasks WHERE priority = :priority")
+
+    fun getTasksByPriority(priority: String): Flow<List<Task>>
+
+    @Query("SELECT * FROM tasks WHERE isCompleted = 1")
+    fun getCompletedTasks(): Flow<List<Task>>
+
+    @Query("SELECT * FROM tasks WHERE isCompleted = 0")
+    fun getPendingTasks(): Flow<List<Task>>
+
+    @Query("SELECT * FROM tasks WHERE title LIKE '%' || :query || '%'")
+    fun searchTasks(query: String): Flow<List<Task>>
+
 }
