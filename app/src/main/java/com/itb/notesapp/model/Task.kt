@@ -14,8 +14,8 @@ data class Task(
     val id: Int = 0,
     val title: String,
     val isCompleted: Boolean = false,
-    val dueDate: String,
     val priority: Priority = Priority.LOW,
+    val dueDate: String,
     val category: String? = null,
     val notes: String? = null
 )

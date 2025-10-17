@@ -18,9 +18,9 @@ class TaskViewModel(private val repository: TaskRepository): ViewModel()
         viewModelScope.launch {
             if (repository.allTasks.first().isEmpty()) {
 
-                repository.insertTask(Task(id = 1, title = "Goooooooooo", dueDate = "03 october", isCompleted = false))
-                repository.insertTask(Task(id = 2, title = "Drink coffee", dueDate = "03 october", isCompleted = true))
-                repository.insertTask(Task(id = 3, title = "Another task a lot of text to check if it works", dueDate = "03 october 1958 a lot of text to check if it works", isCompleted = false))
+                repository.addTask(Task(id = 1, title = "Goooooooooo", dueDate = "03 october", isCompleted = false))
+                repository.addTask(Task(id = 2, title = "Drink coffee", dueDate = "03 october", isCompleted = true))
+                repository.addTask(Task(id = 3, title = "Another task a lot of text to check if it works", dueDate = "03 october 1958 a lot of text to check if it works", isCompleted = false))
             }
             
             repository.allTasks.collect { tasks ->
@@ -32,7 +32,7 @@ class TaskViewModel(private val repository: TaskRepository): ViewModel()
     fun addTask(title: String, dueDate: String) {
         viewModelScope.launch {
             val newTask = Task(title = title, dueDate = dueDate)
-            repository.insertTask(newTask)
+            repository.addTask(newTask)
         }
     }
 

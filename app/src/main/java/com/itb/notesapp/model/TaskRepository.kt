@@ -14,8 +14,8 @@ class TaskRepository (private val taskDao: TaskDao) {
     }
 
     @Insert(onConflict = OnConflictStrategy.Companion.REPLACE)
-    suspend fun insertTask(task: Task) {
-        taskDao.insertTask(task)
+    suspend fun addTask(task: Task) {
+        taskDao.addTask(task)
     }
 
     suspend fun updateTask(task: Task) {
