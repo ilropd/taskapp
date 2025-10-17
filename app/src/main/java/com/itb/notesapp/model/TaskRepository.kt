@@ -10,11 +10,6 @@ class TaskRepository (private val taskDao: TaskDao) {
 
     val allTasks: Flow<List<Task>> = taskDao.getAllTasks()
 
-
-    fun getAllTasks(): Flow<List<Task>> {
-        return taskDao.getAllTasks()
-    }
-
     suspend fun getTaskById(id: Int): Task? {
         return taskDao.getTaskById(id)
     }
