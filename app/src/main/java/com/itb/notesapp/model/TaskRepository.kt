@@ -6,7 +6,7 @@ import androidx.room.Query
 import com.itb.notesapp.data.TaskDao
 import kotlinx.coroutines.flow.Flow
 
-class TaskRepository (private val taskDao: TaskDao) {
+class TaskRepository(private val taskDao: TaskDao) {
 
     val allTasks: Flow<List<Task>> = taskDao.getAllTasks()
 

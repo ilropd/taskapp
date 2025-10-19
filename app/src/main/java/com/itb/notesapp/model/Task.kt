@@ -8,6 +8,7 @@ enum class Priority {
     MEDIUM,
     LOW
 }
+
 @Entity(tableName = "tasks")
 data class Task(
     @PrimaryKey(autoGenerate = true)
@@ -16,6 +17,6 @@ data class Task(
     val isCompleted: Boolean = false,
     val priority: Priority = Priority.LOW,
     val dueDate: String,
-    val category: String? = null,
-    val notes: String? = null
+    val category: String = "",
+    val notes: String = ""
 )

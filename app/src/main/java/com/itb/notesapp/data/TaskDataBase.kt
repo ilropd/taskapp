@@ -6,12 +6,14 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.itb.notesapp.model.Task
 
-@Database(entities = [Task::class], version = 2)
-abstract class TaskDataBase: RoomDatabase() {
+@Database(entities = [Task::class], version = 3, exportSchema = false)
+abstract class TaskDataBase : RoomDatabase() {
     abstract fun taskDao(): TaskDao
 
     companion object {
         const val DATABASE_NAME = "tasks_db"
+
+        @Volatile
         private var INSTANCE: TaskDataBase? = null
 
         fun getInstance(context: Context): TaskDataBase {
@@ -20,7 +22,7 @@ abstract class TaskDataBase: RoomDatabase() {
                     context.applicationContext,
                     TaskDataBase::class.java,
                     DATABASE_NAME
-                    ).fallbackToDestructiveMigration().build()
+                ).fallbackToDestructiveMigration().build()
                 INSTANCE = instance
                 instance
             }

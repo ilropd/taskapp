@@ -4,13 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.itb.notesapp.model.Task
 import com.itb.notesapp.model.TaskRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-class TaskViewModel(private val repository: TaskRepository): ViewModel()
-{
+class TaskViewModel(private val repository: TaskRepository) : ViewModel() {
     private val _tasks = MutableStateFlow<List<Task>>(emptyList())
     val tasks: StateFlow<List<Task>> = _tasks
 
@@ -18,11 +18,32 @@ class TaskViewModel(private val repository: TaskRepository): ViewModel()
         viewModelScope.launch {
             if (repository.allTasks.first().isEmpty()) {
 
-                repository.addTask(Task(id = 1, title = "Goooooooooo", dueDate = "03 october", isCompleted = false))
-                repository.addTask(Task(id = 2, title = "Drink coffee", dueDate = "03 october", isCompleted = true))
-                repository.addTask(Task(id = 3, title = "Another task a lot of text to check if it works", dueDate = "03 october 1958 a lot of text to check if it works", isCompleted = false))
+                repository.addTask(
+                    Task(
+                        id = 1,
+                        title = "Goooooooooo",
+                        dueDate = "03.12.2025",
+                        isCompleted = false
+                    )
+                )
+                repository.addTask(
+                    Task(
+                        id = 2,
+                        title = "Drink coffee",
+                        dueDate = "28.01.2026",
+                        isCompleted = true
+                    )
+                )
+                repository.addTask(
+                    Task(
+                        id = 3,
+                        title = "Another task a lot of text to check if it works",
+                        dueDate = "11.11.2028",
+                        isCompleted = false
+                    )
+                )
             }
-            
+
             repository.allTasks.collect { tasks ->
                 _tasks.value = tasks
             }
@@ -45,6 +66,20 @@ class TaskViewModel(private val repository: TaskRepository): ViewModel()
     fun deleteTask(task: Task) {
         viewModelScope.launch {
             repository.deleteTask(task)
+        }
+    }
+
+    fun getFilteredTasks(
+        priority: String? = null,
+        completed: Boolean? = null,
+        searchQuery: String? = null
+    ): Flow<List<Task>> {
+        return when {
+            searchQuery != null -> repository.searchTasks(searchQuery)
+            completed == true -> repository.getCompletedTasks()
+            completed == false -> repository.getPendingTasks()
+            priority != null -> repository.getTasksByPriority(priority)
+            else -> tasks
         }
     }
 
